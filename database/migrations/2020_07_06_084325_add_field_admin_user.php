@@ -19,6 +19,7 @@ class AddFieldAdminUser extends Migration
             $table->string("google2fa_secret", 255)->after('avatar')->nullable(false)->default("");
             $table->string("recovery_code", 255)->after('avatar')->nullable(false)->default("");
             $table->tinyInteger("enable")->after('avatar')->nullable(false)->comment('1=正常，0=禁用')->default(1);
+            $table->tinyInteger("is_validate")->after('avatar')->nullable(false)->comment('1=开启，0=关闭')->default(1);
         });
     }
 
@@ -33,6 +34,7 @@ class AddFieldAdminUser extends Migration
             $table->dropColumn("google2fa_secret");
             $table->dropColumn("recovery_code");
             $table->dropColumn("enable");
+            $table->dropColumn("is_validate");
         });
     }
 }

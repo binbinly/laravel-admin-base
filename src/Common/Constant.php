@@ -25,6 +25,12 @@ namespace AdminBase\Common {
             'off' => ['value' => 2, 'text' => '冻结', 'color' => 'danger']
         ];
 
+        //二次登陆验证开关样式
+        const TWO_FA_STATUS_SWITCH = [
+            'on' => ['value' => 1, 'text' => '开启', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger']
+        ];
+
         //状态bool定义
         const STATUS_BOOL = [1 => true, 2 => false];
 

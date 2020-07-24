@@ -5,6 +5,7 @@ namespace AdminBase\Controllers\Admin;
 
 
 use AdminBase\Common\Constant;
+use AdminBase\Models\Admin\User;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -50,6 +51,7 @@ class UserController extends \Encore\Admin\Controllers\UserController
 
         if(Admin::user()->isAdministrator()) {//超级管理员才可以操作
             $form->switch('enabled', '是否正常')->states(Constant::STATUS_SWITCH);
+            $form->switch('is_validate', '二次登录验证')->states(Constant::TWO_FA_STATUS_SWITCH);
         }
 
         $form->saving(function (Form $form) {
@@ -78,6 +80,10 @@ class UserController extends \Encore\Admin\Controllers\UserController
         $grid->column('roles', trans('admin.roles'))->pluck('name')->label();
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));
+        if (Admin::user()->isAdministrator()) {
+            $grid->column('is_validate', '二次登录验证')->switch(Constant::TWO_FA_STATUS_SWITCH)->help('超级管理员不需要进行二次验证，其他账户开启即可');
+        }
+
 
         return $grid;
     }

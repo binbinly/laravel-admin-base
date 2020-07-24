@@ -13,7 +13,7 @@ class SecurityController extends HttpController
     const INPUT_KEY = 'one_time_password';
 
     /**
-     * 验证登录
+     * 开启二次验证
      * @param Request $request
      * @return RedirectResponse
      */
@@ -33,7 +33,7 @@ class SecurityController extends HttpController
 
         $authenticator = app(Authenticator::class)->boot($request);
 
-        if ($authenticator->verifyGoogle2FA($secret, (string) $request[self::INPUT_KEY])) {
+        if ($authenticator->verifyGoogle2FA($secret, (string)$request[self::INPUT_KEY])) {
             //encrypt and then save secret
             $user->google2fa_secret = $secret;
             $user->recovery_code = $request['recovery_code'];
@@ -42,13 +42,13 @@ class SecurityController extends HttpController
             $authenticator->login();
 
             admin_success('操作成功');
-            return back();
+            return redirect('/');
         }
         return $this->error();
     }
 
     /**
-     * 登出
+     * 关闭二次验证
      * @param Request $request
      * @return RedirectResponse
      */
@@ -75,7 +75,7 @@ class SecurityController extends HttpController
             $authenticator->logout();
 
             admin_success('操作成功');
-            return back();
+            return redirect('/');
         }
         return $this->error();
     }
