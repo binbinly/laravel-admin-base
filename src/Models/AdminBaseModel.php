@@ -47,30 +47,13 @@ class AdminBaseModel extends Model
         'deleted_at'
     ];
 
+    /**
+     * 时间戳存储
+     * @param  $value
+     * @return false|int|string
+     */
     public function fromDateTime($value)
     {
         return strtotime(parent::fromDateTime($value));
-    }
-
-    /**
-     * 获取map数组
-     * @param int | string $id
-     * @return array|string
-     * @throws Exception
-     */
-    public static function columnAll($id = null)
-    {
-        if (!Cache::has(self::getCacheKey())) {
-            $list = self::getAll();
-            if ($list) {
-                Cache::put(self::getCacheKey(), JsonHelper::encode($list), config('custom.cache_expire', 5));
-            }
-        } else {
-            $list = JsonHelper::decode(Cache::get(self::getCacheKey()));
-        }
-        if (!is_null($id)){
-            return $list[$id] ?? '';
-        }
-        return $list ?: [];
     }
 }

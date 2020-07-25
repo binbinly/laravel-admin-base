@@ -9,6 +9,11 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Layout\Content;
 
+/**
+ * 站点导航分类
+ * Class CategoryController
+ * @package AdminBase\Controllers\WebStack
+ */
 class CategoryController extends AdminBaseController
 {
     use FormTrait;
@@ -50,20 +55,9 @@ class CategoryController extends AdminBaseController
     {
         $form = new Form(new SiteCategory);
 
-        $form->select('parent_id', '父级')
-            ->options(SiteCategory::selectOptions())
-            ->rules('required');
-        $form->text('title', '标题')
-            ->rules('required|max:50')
-            ->placeholder('不得超过50个字符');
-        $form->icon('icon', '图标')
-            ->default('fa-star-o')
-            ->rules('required|max:20');
-
-        $form->tools(function (Form\Tools $tools) {
-            $tools->disableDelete();
-            $tools->disableView();
-        });
+        $form->select('parent_id', '父级')->options(SiteCategory::selectOptions())->rules('required');
+        $form->text('title', '标题')->rules('required|max:50')->placeholder('不得超过50个字符');
+        $form->icon('icon', '图标')->default('fa-star-o')->rules('required|max:20');
 
         $this->disableFormFooter($form);
         return $form;

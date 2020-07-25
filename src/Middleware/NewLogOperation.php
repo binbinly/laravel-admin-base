@@ -11,6 +11,11 @@ use ReflectionException;
 use ReflectionClass;
 use Exception;
 
+/**
+ * 操作日志
+ * Class NewLogOperation
+ * @package AdminBase\Middleware
+ */
 class NewLogOperation extends LogOperation
 {
     /**
@@ -49,10 +54,9 @@ class NewLogOperation extends LogOperation
                     if (!$pos) {
                         continue;
                     }
-                    $newWord = NewOperationLog::$ROUTE_DO[$word];
+                    $newWord = NewOperationLog::$routeLabel[$word];
                     $title = substr_replace($title, $newWord, $pos, $len);
                 }
-
             }
 
             $log = [

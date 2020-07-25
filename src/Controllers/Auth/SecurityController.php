@@ -10,8 +10,6 @@ use Illuminate\Http\RedirectResponse;
 
 class SecurityController extends HttpController
 {
-    const INPUT_KEY = 'one_time_password';
-
     /**
      * 开启二次验证
      * @param Request $request
@@ -25,7 +23,7 @@ class SecurityController extends HttpController
         }
 
         $this->validate($request, [
-            self::INPUT_KEY => 'required',
+            config('google2fa.otp_input') => 'required',
         ]);
 
         //retrieve secret
@@ -33,7 +31,7 @@ class SecurityController extends HttpController
 
         $authenticator = app(Authenticator::class)->boot($request);
 
-        if ($authenticator->verifyGoogle2FA($secret, (string)$request[self::INPUT_KEY])) {
+        if ($authenticator->verifyGoogle2FA($secret, (string)$request[config('google2fa.otp_input')])) {
             //encrypt and then save secret
             $user->google2fa_secret = $secret;
             $user->recovery_code = $request['recovery_code'];
@@ -55,17 +53,14 @@ class SecurityController extends HttpController
     public function deactivateTwoFactor(Request $request)
     {
         $this->validate($request, [
-            self::INPUT_KEY => 'required',
+            config('google2fa.otp_input') => 'required',
         ]);
 
         $user = Admin::user();
 
-        //retrieve secret
-        $secret = $user->google2fa_secret;
-
         $authenticator = app(Authenticator::class)->boot($request);
 
-        if ($authenticator->verifyGoogle2FA($secret, (string) $request[self::INPUT_KEY])) {
+        if ($authenticator->verifyGoogle2FA($user->google2fa_secret, (string)$request[config('google2fa.otp_input')])) {
 
             //make secret column blank
             $user->google2fa_secret = '';

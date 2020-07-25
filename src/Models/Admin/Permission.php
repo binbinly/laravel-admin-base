@@ -7,6 +7,11 @@ namespace AdminBase\Models\Admin;
 use Encore\Admin\Traits\AdminBuilder;
 use Encore\Admin\Traits\ModelTree;
 
+/**
+ * 权限模型
+ * Class Permission
+ * @package AdminBase\Models\Admin
+ */
 class Permission extends \Encore\Admin\Auth\Database\Permission
 {
     use AdminBuilder, ModelTree;

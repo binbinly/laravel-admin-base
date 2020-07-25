@@ -4,6 +4,11 @@
 namespace AdminBase\Common;
 
 
+/**
+ * 时间
+ * Class Date
+ * @package AdminBase\Common
+ */
 class Date
 {
     /**

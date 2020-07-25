@@ -3,7 +3,11 @@
 
 namespace AdminBase\Utility;
 
-
+/**
+ * 生成随机数
+ * Class Random
+ * @package AdminBase\Utility
+ */
 class Random
 {
     /**

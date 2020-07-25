@@ -15,6 +15,11 @@ use Encore\Admin\Widgets\Box;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 
+/**
+ * 权限
+ * Class PermissionController
+ * @package AdminBase\Controllers\Admin
+ */
 class PermissionController extends Controller
 {
     use HasResourceActions;

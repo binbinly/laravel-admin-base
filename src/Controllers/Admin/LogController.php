@@ -4,14 +4,21 @@
 namespace AdminBase\Controllers\Admin;
 
 use AdminBase\Actions\Post\LogInput;
-use AdminBase\Models\Admin\NewOperationLog;
+use AdminBase\Models\Admin\User;
+use AdminBase\Traits\Search;
 use Encore\Admin\Auth\Database\OperationLog;
 use Encore\Admin\Grid;
-use Encore\Admin\Show;
 use Illuminate\Support\Arr;
 
+/**
+ * 操作日志
+ * Class LogController
+ * @package AdminBase\Controllers\Admin
+ */
 class LogController extends \Encore\Admin\Controllers\LogController
 {
+    use Search;
+
     /**
      * @return Grid
      */
@@ -27,13 +34,10 @@ class LogController extends \Encore\Admin\Controllers\LogController
         $grid->column('ip', 'IP地址')->label('primary');
         $grid->column('method')->display(function ($method) {
             $color = Arr::get(OperationLog::$methodColors, $method, 'grey');
-
             return "<span class=\"badge bg-$color\">$method</span>";
         });
         $grid->column('do', '操作');
-
         $grid->column('created_at', trans('admin.created_at'));
-
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableEdit();
             $actions->disableView();
@@ -44,29 +48,16 @@ class LogController extends \Encore\Admin\Controllers\LogController
 
         $grid->disableCreateButton();
 
-        $grid->filter(function (Grid\Filter $filter) {
-            $userModel = config('admin.database.users_model');
-
-            // 去掉默认的id过滤器
-            $filter->disableIdFilter();
-            $filter->equal('user_id', '用户')->select($userModel::all()->pluck('name', 'id'));
-            $filter->equal('method')->select(array_combine(OperationLog::$methods, OperationLog::$methods));
-            $filter->equal('ip');
-        });
-
         return $grid;
     }
 
-    public function detail($id)
+    /**
+     * @inheritDoc
+     */
+    protected function filter(Grid\Filter &$filter)
     {
-        $show = new Show(NewOperationLog::query()->findOrFail($id));
-        $show->field('id', 'ID');
-        $show->field('user_id', '用户ID');
-        $show->field('method', '请求地址');
-        $show->field('ip', 'IP地址');
-        $show->field('do', '操作');
-        $show->field('input', '详细参数');
-        $show->field('created_at', '记录时间');
-        return $show;
+        $filter->equal('user_id', '用户')->select(User::all()->pluck('name', 'id'));
+        $filter->equal('method')->select(array_combine(OperationLog::$methods, OperationLog::$methods));
+        $filter->equal('ip');
     }
 }

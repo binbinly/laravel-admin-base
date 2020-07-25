@@ -32,18 +32,6 @@ class AdminBaseController extends AdminController
     protected $id;
 
     /**
-     * 分页-注意分页变量 默认第一页
-     * @var int
-     */
-    protected $p = 1;
-
-    /**
-     * 分页limit
-     * @var
-     */
-    protected $pageLimit = 0;
-
-    /**
      * 列表
      * @param Content $content
      * @return Content

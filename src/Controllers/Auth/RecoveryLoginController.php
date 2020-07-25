@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Google2FA;
 
+/**
+ * 恢复代码登陆
+ * Class RecoveryLoginController
+ * @package AdminBase\Controllers\Auth
+ */
 class RecoveryLoginController extends HttpController
 {
     use RedirectsUsers;

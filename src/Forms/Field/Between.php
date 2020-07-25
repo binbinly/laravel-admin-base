@@ -11,20 +11,36 @@ use Illuminate\Support\Arr;
  */
 class Between extends \Encore\Admin\Grid\Filter\Between
 {
+    /**
+     * 是否查询的 mongodb 数据库
+     * @var bool
+     */
     protected $isMongodb = false;
 
+    /**
+     * 查询的字段是否是时间格式（yyyy-MM-dd H:m:s）
+     * @var bool
+     */
     protected $isSelectTime = false;
 
-    //是否查询的 mongodb 数据库
+    /**
+     * 是否查询当前表子字段
+     * @var bool
+     */
+    protected $isSub = false;
+
     public function mongodb()
     {
         $this->isMongodb = true;
     }
 
-    //查询的字段是否是时间格式（yyyy-MM-dd H:m:s）
     public function selectTime()
     {
         $this->isSelectTime = true;
+    }
+
+    public function sub(){
+        $this->isSub = true;
     }
 
     /**
@@ -36,8 +52,12 @@ class Between extends \Encore\Admin\Grid\Filter\Between
      */
     public function condition($inputs)
     {
+        if ($this->ignore) {
+            return;
+        }
+
         if (!Arr::has($inputs, $this->column)) {
-            return false;
+            return;
         }
 
         $this->value = Arr::get($inputs, $this->column);
@@ -47,7 +67,7 @@ class Between extends \Encore\Admin\Grid\Filter\Between
         });
 
         if (empty($value)) {
-            return false;
+            return;
         }
 
         if (!isset($value['start']) && isset($value['end'])) {
@@ -71,5 +91,17 @@ class Between extends \Encore\Admin\Grid\Filter\Between
             $value = array_values($value);
         }
         return $this->buildCondition($this->column, $value);
+    }
+
+    /**
+     * 处理mongodb查询子字段
+     * @return array|mixed
+     */
+    protected function buildCondition()
+    {
+        if ($this->isSub) {
+            return [$this->query => func_get_args()];
+        }
+        return parent::buildCondition();
     }
 }

@@ -7,15 +7,18 @@ namespace AdminBase\Extensions\Exporter;
 use Encore\Admin\Grid\Exporters\CsvExporter;
 use Encore\Admin\Auth\Permission;
 
-class BaseCsvExporter extends CsvExporter
+/**
+ * csv导出
+ * Class BaseCsvExporter
+ * @package AdminBase\Extensions\Exporter
+ */
+abstract class BaseCsvExporter extends CsvExporter
 {
     /**
-     * 指定源数据输出字段
+     * 数据原样输出字段
      * @var array
      */
-    protected $columnUseOriginalValue = [
-
-    ];
+    protected $columnUseOriginalValue = [];
 
     public function export()
     {
@@ -36,10 +39,5 @@ class BaseCsvExporter extends CsvExporter
     /**
      * 字段过滤
      */
-    private function columnCallback()
-    {
-        $this->column('is_release', function ($value) {
-            return $value == 1 ? '是' : '否';
-        });
-    }
+    abstract protected function columnCallback();
 }

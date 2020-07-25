@@ -6,6 +6,11 @@ namespace AdminBase\Traits;
 
 use Encore\Admin\Grid;
 
+/**
+ * 模型表格
+ * Trait GridTrait
+ * @package AdminBase\Traits
+ */
 trait GridTrait
 {
     /**
@@ -14,27 +19,13 @@ trait GridTrait
      */
     protected function disableGridAll(Grid &$grid)
     {
-        //禁用行操作列
         $grid->disableActions();
-
-        //禁用分页条
         $grid->disablePagination();
-
-        //禁用创建按钮
         $grid->disableCreateButton();
-
-        //禁用查询过滤器
         $grid->disableFilter();
-
-        //禁用行选择checkbox
         $grid->disableRowSelector();
-
-        //禁用行选择器
         $grid->disableColumnSelector();
-
         $grid->disableTools();
-
-        //禁用导出数据按钮
         $grid->disableExport();
     }
 
@@ -96,9 +87,7 @@ trait GridTrait
     protected function disableGridDeleteAndView(Grid &$grid)
     {
         $grid->actions(function (Grid\Displayers\Actions $actions) {
-            // 去掉删除
             $actions->disableDelete();
-            // 去掉显示
             $actions->disableView();
         });
     }

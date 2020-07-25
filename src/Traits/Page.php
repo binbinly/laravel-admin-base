@@ -13,6 +13,24 @@ use AdminBase\Common\Constant;
 trait Page
 {
     /**
+     * 参数
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * 第几页
+     * @var int
+     */
+    protected $p = 1;
+
+    /**
+     * 起始页
+     * @var int
+     */
+    protected $limit;
+
+    /**
      * 格式化分页
      */
     protected function format()
@@ -20,7 +38,7 @@ trait Page
         if (isset($this->params['p'])) {
             $this->p = intval($this->params['p']);
             $this->p < 1 && $this->p = 1;
-            $this->pageLimit = ($this->p - 1) * Constant::PAGE_SIZE;
+            $this->limit = ($this->p - 1) * Constant::PAGE_SIZE;
         }
     }
 }

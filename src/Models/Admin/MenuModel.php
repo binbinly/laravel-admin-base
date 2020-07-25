@@ -6,21 +6,28 @@ namespace AdminBase\Models\Admin;
 use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Facades\Admin;
 
+/**
+ * 菜单模型
+ * Class MenuModel
+ * @package AdminBase\Models\Admin
+ */
 class MenuModel extends Menu
 {
+    /**
+     * 解决菜单对应权限显示/隐藏
+     * @return array
+     */
     public function toTree()
     {
         $menu = $this->buildNestedArray();
         if (Admin::user()->isAdministrator()) {
             return $menu;
         }
-        $roles = Admin::user()->roles->toArray();
-        $roleIds = array_column($roles, 'id');
-        $routers = RolePermission::allowRouter($roleIds);
+        $routers = RolePermission::allowRouter();
 
         $routers = $this->formatRouters($routers);
-        $this->formatTree($menu, $routers);
-        $this->emptyTree($menu);
+        $this->filterMenu($menu, $routers);
+        $this->filterEmptyMenu($menu);
         return $menu;
     }
 
@@ -29,11 +36,11 @@ class MenuModel extends Menu
      * @param $menu
      * @param $allowRouter
      */
-    public function formatTree(&$menu, $allowRouter)
+    protected function filterMenu(&$menu, $allowRouter)
     {
         foreach ($menu as $key => &$val) {
             if (isset($val['children']) && $val['children']) {
-                $this->formatTree($val['children'], $allowRouter);
+                $this->filterMenu($val['children'], $allowRouter);
             }
             if ($val['uri'] == '/') continue;
             if ($val['parent_id'] != 0 && !in_array(str_replace('/', '', $val['uri']), str_replace('/', '', str_replace('*', '', $allowRouter)))) {
@@ -45,22 +52,24 @@ class MenuModel extends Menu
     /**
      * 去除没有子菜单的item
      * @param $menu
+     * @return array
      */
-    public function emptyTree(&$menu)
+    protected function filterEmptyMenu($menu)
     {
-        foreach ($menu as $key => $val) {
-            if ($val['uri'] == '/') continue;
+        return array_filter($menu, function($val){
+            if ($val['url'] == '/') return true;
             if (!isset($val['children']) || !$val['children']) {
-                unset($menu[$key]);
+                return false;
             }
-        }
+            return true;
+        });
     }
 
     /**
      * @param $routers
      * @return array
      */
-    public function formatRouters($routers)
+    protected function formatRouters($routers)
     {
         $newRouters = [];
         //权限菜单 $allowRouter 可以是多个的

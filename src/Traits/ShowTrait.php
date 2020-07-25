@@ -5,6 +5,11 @@ namespace AdminBase\Traits;
 
 use Encore\Admin\Show;
 
+/**
+ * 模型详情
+ * Trait ShowTrait
+ * @package AdminBase\Traits
+ */
 trait ShowTrait
 {
     /**

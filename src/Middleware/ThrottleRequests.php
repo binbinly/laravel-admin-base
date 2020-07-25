@@ -6,6 +6,11 @@ use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * 限流
+ * Class ThrottleRequests
+ * @package AdminBase\Middleware
+ */
 class ThrottleRequests
 {
     /**

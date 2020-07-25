@@ -2,8 +2,11 @@
 
 namespace AdminBase\Common;
 
-use Encore\Admin\Facades\Admin;
-
+/**
+ * 格式化
+ * Class Format
+ * @package AdminBase\Common
+ */
 class Format
 {
     /**
@@ -24,37 +27,23 @@ class Format
     }
 
     /**
-     * 格式化成INT
+     * 格式化成数值
      * @param $value
      * @return array|int
      */
     public static function formatInt($value)
     {
-        if (is_numeric($value) && strpos($value, ".") === false) {
-            return intval($value);
+        if (is_numeric($value)) {
+            return self::formatNumber($value, false);
         } elseif (is_array($value)) {
             foreach ($value as $k => $v) {
-                if (is_numeric($v) && strpos($v, ".") === false) {
-                    $value[$k] = intval($v);
+                if (is_numeric($v)) {
+                    $value[$k] = self::formatNumber($v, false);
                 }
             }
             return $value;
         }
         return $value;
-    }
-
-    /**
-     * 手机号格式化
-     * @param $mobile
-     * @return mixed|string
-     */
-    public static function formatMobile($mobile)
-    {
-        if (Admin::user()->can('user_mobile')) {
-            return $mobile;
-        } else {
-            return $mobile ? substr_replace($mobile, '******', 3, 6) : '';
-        }
     }
 
     /**
@@ -100,19 +89,19 @@ class Format
     }
 
     /**
-     * 格式化二维数组成key-value一维数组
+     * 格式化二维数组成map结构
      * @param $list
      * @param $key
      * @param $value
      * @return array|false
      */
-    public static function formatColumn($list, $key, $value)
+    public static function formatColumn(array $list, $key, $value)
     {
         return array_combine(array_column($list, $key), array_column($list, $value));
     }
 
     /**
-     * 处理小数百分比格式
+     * 格式化百分比
      * @param $decimal
      * @return string
      */
@@ -131,29 +120,16 @@ class Format
      * @param $order
      * @return mixed
      */
-    public static function arraySort($arr, $key, $order)
+    public static function arraySort(array $arr, $key, $order)
     {
         $date = array_column($arr, $key);
         $orderBy = '';
         if ($order == 'DESC') {
-            $orderBy = 3;//SORT_DESC
+            $orderBy = SORT_DESC;
         } elseif ($order == 'ASC') {
-            $orderBy = 4;//SORT_ASC
+            $orderBy = SORT_ASC;
         }
         array_multisort($date, $orderBy, $arr);
         return $arr;
-    }
-
-    /**
-     * 处理数据统计里边的百分比显示
-     * @param int $value 处理的数值(百分比)
-     * @return string
-     */
-    public static function formatStatPp($value)
-    {
-        if ($value == 0) {
-            return '0.00%';
-        }
-        return sprintf("%.2f", round($value / 100, 2)) . '%';
     }
 }

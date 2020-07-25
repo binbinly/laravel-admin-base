@@ -3,7 +3,6 @@
 namespace AdminBase\Forms\Field;
 
 
-use AdminBase\Utility\Google2FaHelper;
 use AdminBase\Utility\Random;
 use Encore\Admin\Form\Field;
 use Google2FA;
@@ -29,10 +28,10 @@ class Google2FaButton extends Field
         }else{
             $secretKey = Google2FA::generateSecretKey(32);
             $inlineUrl = Google2FA::getQRCodeInline(
-                config('app.name', 'admin'),
-                config('custom.google2fa_email', 'google2fa@pragmarx.com'),
+                config('app.name'),
+                config('base.google2fa_email'),
                 $secretKey,
-                200
+                config('base.google2fa_qr_width')
             );
             $valid = 0;
             $recoveryCode = Random::character(32);

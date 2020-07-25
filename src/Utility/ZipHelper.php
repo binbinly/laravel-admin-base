@@ -14,7 +14,7 @@ class ZipHelper
      */
     public static function extract($zipFile, $targetDir){
         if(!is_dir($targetDir)) {
-            mkdir($targetDir, 0660, true);
+            mkdir($targetDir, 0755, true);
         }
         $zip = new ZipArchive();
         $openRes = $zip->open($zipFile);

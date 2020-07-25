@@ -10,6 +10,11 @@ use AdminBase\Traits\GridTrait;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 
+/**
+ * 站点导航
+ * Class SiteController
+ * @package AdminBase\Controllers\WebStack
+ */
 class SiteController extends AdminBaseController
 {
     use GridTrait;
@@ -52,21 +57,11 @@ class SiteController extends AdminBaseController
     {
         $form = new Form(new Site);
 
-        $form->select('category_id', '分类')
-            ->options(SiteCategory::selectOptions(null, ''))
-            ->rules('required');
-        $form->text('title', '标题')
-            ->attribute('autocomplete', 'off')
-            ->rules('required|max:50');
-        $form->image('thumb', '图标')
-            ->resize(120, 120)
-            ->uniqueName();
-        $form->text('describe', '描述')
-            ->attribute('autocomplete', 'off')
-            ->rules('required|max:300');
-        $form->url('url', '地址')
-            ->attribute('autocomplete', 'off')
-            ->rules('required|max:250');
+        $form->select('category_id', '分类')->options(SiteCategory::selectOptions(null, ''))->rules('required');
+        $form->text('title', '标题')->attribute('autocomplete', 'off')->rules('required|max:50');
+        $form->image('thumb', '图标')->resize(120, 120)->uniqueName();
+        $form->text('describe', '描述')->attribute('autocomplete', 'off')->rules('required|max:300');
+        $form->url('url', '地址')->attribute('autocomplete', 'off')->rules('required|max:250');
         $this->disableFormFooter($form);
         return $form;
     }

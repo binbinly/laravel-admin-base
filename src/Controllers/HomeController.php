@@ -10,6 +10,11 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Illuminate\Database\Query\Builder;
 
+/**
+ * 首页
+ * Class HomeController
+ * @package AdminBase\Controllers
+ */
 class HomeController extends HttpController
 {
     public function index(){

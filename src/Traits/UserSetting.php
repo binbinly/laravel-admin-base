@@ -12,6 +12,11 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * 用户设置
+ * Trait UserSetting
+ * @package AdminBase\Traits
+ */
 trait UserSetting
 {
     /**

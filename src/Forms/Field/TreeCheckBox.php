@@ -33,7 +33,6 @@ class TreeCheckBox  extends Field
 
     public function render()
     {
-
         $this->script = <<<EOT
     var data = eval('{$this->treeData}');
   layui.use('tree', function(){

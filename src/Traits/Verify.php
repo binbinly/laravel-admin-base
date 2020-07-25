@@ -6,6 +6,11 @@ namespace AdminBase\Traits;
 
 use AdminBase\Utility\TnCode;
 
+/**
+ * 滑动验证码验证
+ * Trait Verify
+ * @package AdminBase\Traits
+ */
 trait Verify
 {
     /**

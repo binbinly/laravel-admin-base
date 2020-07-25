@@ -24,11 +24,11 @@ class AES
 
     public function __construct()
     {
-        $this->key = config('custom.aes_key');
+        $this->key = config('base.aes_key');
     }
 
     /**
-     * @param mixed $key
+     * @param string $key
      * @return self
      */
     public function setKey($key): self

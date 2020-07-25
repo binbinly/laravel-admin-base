@@ -8,6 +8,11 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Middleware\Permission;
 use Illuminate\Http\Request;
 
+/**
+ * 权限验证
+ * Class NewPermission
+ * @package AdminBase\Middleware
+ */
 class NewPermission extends Permission
 {
     /**

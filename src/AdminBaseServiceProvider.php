@@ -43,15 +43,20 @@ class AdminBaseServiceProvider extends ServiceProvider
             $this->loadViewsFrom($views, 'common');
         }
 
+        //数据迁移
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
 
+        //路由
         $this->app->booted(function () {
-            //路由
             AdminBase::routes(__DIR__.'/../routes/web.php');
         });
 
+        //发布配置
+        $this->publishes([__DIR__.'/../config/base.php' => config_path('base.php')]);
+
+        //go-fastdfs适配器
         Storage::extend('dfs', function ($app, $config) {
             $adapter = new FastDFSAdapter($config['root'], $config['api']);
             return new Filesystem($adapter);

@@ -2,25 +2,36 @@
 
 namespace AdminBase\Middleware;
 
-use AdminBase\Models\Admin\NewOperationLog;
 use AdminBase\Models\Admin\User;
 use Closure;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
-use ReflectionException;
-use ReflectionClass;
-use Exception;
+use PragmaRX\Google2FALaravel\Support\Authenticator;
 
-class MiddlewareCheck2fa
+/**
+ * 是否强制开启2fa验证
+ * Class Check2Fa
+ * @package AdminBase\Middleware
+ */
+class Check2Fa
 {
     /**
-     * 二次登录验证
+     * 强制开启二次登录验证
      * @param Request $request
      * @param Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!config('base.google2fa_force')) {
+            return $next($request);
+        }
+        $authenticator = app(Authenticator::class)->boot($request);
+
+        if ($authenticator->isAuthenticated()) {
+            return $next($request);
+        }
+        return redirect('/auth/setting');
         //检查是否开启了二次验证
         $user = Admin::user();
         if (strstr($request->getRequestUri(), '/auth/setting')) {

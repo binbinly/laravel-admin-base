@@ -20,16 +20,6 @@ use Encore\Admin\Auth\Database\Administrator;
  */
 class User extends Administrator
 {
-
-    const IS_CALIDATE_OFF = 0;
-
-    const IS_CALIDATE_ON = 1;
-
-    public $is_validate_status = [
-        self::IS_CALIDATE_OFF => '关闭',
-        self::IS_CALIDATE_ON => '开启'
-    ];
-
     protected $fillable = ['username', 'password', 'name', 'avatar', 'google2fa_secret', 'recovery_code'];
 
     /**

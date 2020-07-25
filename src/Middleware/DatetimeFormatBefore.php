@@ -6,10 +6,14 @@ use AdminBase\Common\Format;
 use Closure;
 use Illuminate\Http\Request;
 
+/**
+ * 兼容mongo，格式化请求参数
+ * Class DatetimeFormatBefore
+ * @package AdminBase\Middleware
+ */
 class DatetimeFormatBefore
 {
     /**
-     * 兼容mongo，格式化请求参数
      * @param $request
      * @param Closure $next
      * @return mixed
