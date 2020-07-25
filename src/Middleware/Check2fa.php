@@ -31,7 +31,7 @@ class Check2Fa
         if ($authenticator->isAuthenticated()) {
             return $next($request);
         }
-        return redirect('/auth/setting');
+        return admin_url('auth/setting');
         //检查是否开启了二次验证
         $user = Admin::user();
         if (strstr($request->getRequestUri(), '/auth/setting')) {

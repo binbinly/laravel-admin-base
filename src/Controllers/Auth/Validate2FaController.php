@@ -13,6 +13,6 @@ class Validate2FaController extends HttpController
      */
     public function index()
     {
-        return redirect('/');
+        return admin_url('/');
     }
 }
