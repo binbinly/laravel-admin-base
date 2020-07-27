@@ -2,11 +2,9 @@
 
 namespace AdminBase\Middleware;
 
-use AdminBase\Models\Admin\User;
 use Closure;
 use Encore\Admin\Facades\Admin;
 use Illuminate\Http\Request;
-use PragmaRX\Google2FALaravel\Support\Authenticator;
 
 /**
  * 是否强制开启2fa
