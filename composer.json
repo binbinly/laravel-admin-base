@@ -20,12 +20,5 @@
         "psr-4": {
             "AdminBase\\" : "src/"
         }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "AdminBase\\AdminBaseServiceProvider"
-            ]
-        }
     }
 }
