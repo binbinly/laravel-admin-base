@@ -30,7 +30,7 @@ class User extends Administrator
      */
     public function setGoogle2faSecretAttribute($value): void
     {
-        $value && $this->attributes['google2fa_secret'] = encrypt($value);
+        $this->attributes['google2fa_secret'] = encrypt($value);
     }
 
     /**
@@ -52,7 +52,7 @@ class User extends Administrator
      */
     public function setRecoveryCodeAttribute($value): void
     {
-        $value && $this->attributes['recovery_code'] = encrypt($value);
+        $this->attributes['recovery_code'] = encrypt($value);
     }
 
     /**

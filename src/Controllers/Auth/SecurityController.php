@@ -40,7 +40,7 @@ class SecurityController extends HttpController
             $authenticator->login();
 
             admin_success('操作成功');
-            return redirect('/');
+            return back();
         }
         return $this->error();
     }
@@ -70,7 +70,7 @@ class SecurityController extends HttpController
             $authenticator->logout();
 
             admin_success('操作成功');
-            return redirect('/');
+            return back();
         }
         return $this->error();
     }

@@ -37,6 +37,8 @@ class AdminBaseServiceProvider extends ServiceProvider
             'admin.log',
             'admin.bootstrap',
             'admin.permission',
+        ],
+        'admin_base' => [
             'admin.2fa',
             'admin.force2fa',
             'admin.datetime'
