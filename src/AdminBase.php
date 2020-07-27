@@ -23,7 +23,9 @@ class AdminBase extends Extension
                 $router->post('auth/recovery', 'Auth\RecoveryLoginController@store')->name('恢复代码登录');
             });
 
-            $authController = config('admin.auth.controller', AuthController::class);
+            $authController = config('admin.auth.controller');
+            $router->get('auth/login', $authController.'@getLogin')->name('admin.login');
+            $router->post('auth/login', $authController.'@postLogin');
             $router->get('auth/check', $authController.'@check')->name('验证码验证');
             $router->get('auth/verify', $authController.'@verify')->name('验证码生成');
         });
