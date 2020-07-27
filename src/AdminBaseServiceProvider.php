@@ -19,10 +19,10 @@ class AdminBaseServiceProvider extends ServiceProvider
     protected $routeMiddleware = [
         'admin.log'        => Middleware\LogOperation::class,
         'admin.permission' => Middleware\Permission::class,
-        'admin.2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        'base.2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
         'throttle' => Middleware\ThrottleRequests::class,
-        'admin.force2fa' => Middleware\Force2fa::class,
-        'admin.datetime' => Middleware\DatetimeFormatBefore::class,
+        'base.force2fa' => Middleware\Force2fa::class,
+        'base.datetime' => Middleware\DatetimeFormatBefore::class,
     ];
 
     /**
@@ -39,9 +39,9 @@ class AdminBaseServiceProvider extends ServiceProvider
             'admin.permission',
         ],
         'admin_base' => [
-            'admin.2fa',
-            'admin.force2fa',
-            'admin.datetime'
+            'base.2fa',
+            'base.force2fa',
+            'base.datetime'
         ],
     ];
 
