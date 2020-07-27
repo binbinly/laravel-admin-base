@@ -26,9 +26,8 @@ class MenuModel extends Menu
         $routers = RolePermission::allowRouter();
 
         $routers = $this->formatRouters($routers);
-        $this->filterMenu($menu, $routers);
-        $this->filterEmptyMenu($menu);
-        return $menu;
+        $this->filterMenu($menu, str_replace('/', '', str_replace('*', '', $routers)));
+        return $this->filterEmptyMenu($menu);
     }
 
     /**
@@ -42,8 +41,8 @@ class MenuModel extends Menu
             if (isset($val['children']) && $val['children']) {
                 $this->filterMenu($val['children'], $allowRouter);
             }
-            if ($val['uri'] == '/') continue;
-            if ($val['parent_id'] != 0 && !in_array(str_replace('/', '', $val['uri']), str_replace('/', '', str_replace('*', '', $allowRouter)))) {
+            if ($val['uri'] == '/' || $val['uri'] == '') continue;
+            if ($val['parent_id'] != 0 && !in_array(str_replace('/', '', $val['uri']), $allowRouter)) {
                 unset($menu[$key]);
             }
         }
@@ -57,7 +56,7 @@ class MenuModel extends Menu
     protected function filterEmptyMenu($menu)
     {
         return array_filter($menu, function($val){
-            if ($val['url'] == '/') return true;
+            if ($val['uri'] == '/') return true;
             if (!isset($val['children']) || !$val['children']) {
                 return false;
             }

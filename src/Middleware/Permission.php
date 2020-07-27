@@ -5,7 +5,6 @@ namespace AdminBase\Middleware;
 
 use Encore\Admin\Auth\Permission as Checker;
 use Encore\Admin\Facades\Admin;
-use Encore\Admin\Middleware\Permission;
 use Illuminate\Http\Request;
 
 /**
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
  * Class NewPermission
  * @package AdminBase\Middleware
  */
-class NewPermission extends Permission
+class Permission extends \Encore\Admin\Middleware\Permission
 {
     /**
      * Handle an incoming request.
@@ -38,22 +37,8 @@ class NewPermission extends Permission
             return $next($request);
         }
 
-        if (in_array($request->route()->getActionName(), [
-            'AdminBase\Controllers\Auth\SecurityController@validateTwoFactor',
-            'AdminBase\Controllers\Auth\SecurityController@deactivateTwoFactor',
-            'App\Admin\Controllers\AuthController@getSetting',
-            'AdminBase\Controllers\Auth\RecoveryLoginController@store',
-            'AdminBase\Controllers\Auth\RecoveryLoginController@get',
-            'AdminBase\Controllers\Auth\Validate2faController@index'
-        ])) {
-            return $next($request);
-        }
         //接口跳过权限认证
         if($request->route()->getPrefix() == '/api') {
-            return $next($request);
-        }
-        $currPath = $request->path();
-        if (in_array($currPath , ['/', '_handle_form_', '_handle_action_'])) {
             return $next($request);
         }
 
@@ -64,5 +49,41 @@ class NewPermission extends Permission
         }
 
         return $next($request);
+    }
+
+    /**
+     * Determine if the request has a URI that should pass through verification.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return bool
+     */
+    protected function shouldPassThrough($request)
+    {
+        $excepts = array_merge(config('admin.auth.excepts', []), [
+            'auth/login',
+            'auth/logout',
+            '_handle_action_',
+            '_handle_form_',
+            '_handle_selectable_',
+            '_handle_renderable_',
+            'auth/recovery',
+            'auth/check',
+            'auth/verify',
+            'auth/setting/enable_2fa',
+            'auth/setting/disable_2fa',
+            'auth/validate2fa',
+            'auth/setting'
+        ]);
+
+        return collect($excepts)
+            ->map('admin_base_path')
+            ->contains(function ($except) use ($request) {
+                if ($except !== '/') {
+                    $except = trim($except, '/');
+                }
+
+                return $request->is($except);
+            });
     }
 }

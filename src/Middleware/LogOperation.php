@@ -5,7 +5,6 @@ namespace AdminBase\Middleware;
 use AdminBase\Models\Admin\NewOperationLog;
 use Closure;
 use Encore\Admin\Facades\Admin;
-use Encore\Admin\Middleware\LogOperation;
 use Illuminate\Http\Request;
 use ReflectionException;
 use ReflectionClass;
@@ -16,7 +15,7 @@ use Exception;
  * Class NewLogOperation
  * @package AdminBase\Middleware
  */
-class NewLogOperation extends LogOperation
+class LogOperation extends \Encore\Admin\Middleware\LogOperation
 {
     /**
      * 操作日志收集

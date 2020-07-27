@@ -24,7 +24,8 @@ class RolePermission extends AdminBaseModel
         $roles = Admin::user()->roles->toArray();
         $roleIds = array_column($roles, 'id');
         $list = self::query()->leftJoin('admin_permissions as p', 'p.id', '=', 'admin_role_permissions.permission_id')
-            ->whereIn('admin_role_permissions.role_id', $roleIds)->pluck('p.http_path')->toArray();
+            ->whereIn('admin_role_permissions.role_id', $roleIds)
+            ->where('http_path', '<>', '')->pluck('http_path')->toArray();
         return $list ?: [];
     }
 

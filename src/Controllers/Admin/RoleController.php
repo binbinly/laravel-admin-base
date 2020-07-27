@@ -51,7 +51,7 @@ class RoleController extends \Encore\Admin\Controllers\RoleController
             $form->tab('信息', function (Form $form) {
                 $form->text('slug', trans('admin.slug'))->required();
                 $form->text('name', trans('admin.name'))->required();
-                $form->switch('force_2fa', '强制二次登录验证')->states(Constant::SWITCH);
+                $form->switch('is_2fa', '强制二次登录验证')->states(Constant::SWITCH);
             })->tab('授权', function ($form) use ($id) {
                 $form->tree('permissions', trans('admin.permissions'))->options((new Permission())->layTree($id));
             });
@@ -73,7 +73,7 @@ class RoleController extends \Encore\Admin\Controllers\RoleController
         $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
-        $grid->column('force_2fa')->switch(Constant::SWITCH)->editable();
+        $grid->column('is_2fa', '是否强制2fa')->bool();
 
         $grid->column('created_at', trans('admin.created_at'));
         $grid->column('updated_at', trans('admin.updated_at'));

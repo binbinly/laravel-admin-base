@@ -17,10 +17,12 @@ class AdminBaseServiceProvider extends ServiceProvider
      * @var array
      */
     protected $routeMiddleware = [
-        'admin.auth' => \Encore\Admin\Middleware\Authenticate::class,
-        'admin.pjax' => \Encore\Admin\Middleware\Pjax::class,
-        'admin.bootstrap' => \Encore\Admin\Middleware\Bootstrap::class,
-        'admin.session' => \Encore\Admin\Middleware\Session::class,
+        'admin.log'        => Middleware\LogOperation::class,
+        'admin.permission' => Middleware\Permission::class,
+        'admin.2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        'throttle' => Middleware\ThrottleRequests::class,
+        'admin.force2fa' => Middleware\Force2fa::class,
+        'admin.datetime' => Middleware\DatetimeFormatBefore::class,
     ];
 
     /**
@@ -32,8 +34,12 @@ class AdminBaseServiceProvider extends ServiceProvider
         'admin' => [
             'admin.auth',
             'admin.pjax',
+            'admin.log',
             'admin.bootstrap',
             'admin.permission',
+            'admin.2fa',
+            'admin.force2fa',
+            'admin.datetime'
         ],
     ];
 
@@ -61,5 +67,29 @@ class AdminBaseServiceProvider extends ServiceProvider
             $adapter = new FastDFSAdapter($config['root'], $config['api']);
             return new Filesystem($adapter);
         });
+    }
+
+    /**
+     * 路由调用时注册事件
+     */
+    public function register()
+    {
+        $this->registerRouteMiddleware();
+    }
+
+    /**
+     * 注册中间件
+     */
+    protected function registerRouteMiddleware()
+    {
+        // register route middleware.
+        foreach ($this->routeMiddleware as $key => $middleware) {
+            app('router')->aliasMiddleware($key, $middleware);
+        }
+
+        // register middleware group.
+        foreach ($this->middlewareGroups as $key => $middleware) {
+            app('router')->middlewareGroup($key, $middleware);
+        }
     }
 }
