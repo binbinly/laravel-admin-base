@@ -5,6 +5,7 @@ namespace AdminBase\Controllers\Admin;
 
 
 use AdminBase\Common\Constant;
+use AdminBase\Models\AdminBaseModel;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -54,7 +55,7 @@ class UserController extends \Encore\Admin\Controllers\UserController
         $form->display('updated_at', trans('admin.updated_at'));
 
         if(Admin::user()->isAdministrator()) {//超级管理员才可以操作
-            $form->switch('enabled', '是否正常')->states(Constant::STATUS_SWITCH);
+            $form->switch('enabled', '是否正常')->states(Constant::STATUS_SWITCH)->default(AdminBaseModel::RELEASE_YES);
         }
 
         $form->saving(function (Form $form) {

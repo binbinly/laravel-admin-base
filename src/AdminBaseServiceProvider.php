@@ -64,6 +64,14 @@ class AdminBaseServiceProvider extends ServiceProvider
         //发布配置
         $this->publishes([__DIR__.'/../config/base.php' => config_path('base.php')]);
 
+        //发布静态资源
+        if ($this->app->runningInConsole() && $assets = $extension->assets()) {
+            $this->publishes(
+                [$assets => public_path('vendor')],
+                'admin-base'
+            );
+        }
+
         //go-fastdfs适配器
         Storage::extend('dfs', function ($app, $config) {
             $adapter = new FastDFSAdapter($config['root'], $config['api']);
