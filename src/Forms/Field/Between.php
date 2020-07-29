@@ -32,15 +32,18 @@ class Between extends \Encore\Admin\Grid\Filter\Between
     public function mongodb()
     {
         $this->isMongodb = true;
+        return $this;
     }
 
     public function selectTime()
     {
         $this->isSelectTime = true;
+        return $this;
     }
 
     public function sub(){
         $this->isSub = true;
+        return $this;
     }
 
     /**
