@@ -69,7 +69,7 @@ class Format
      */
     public static function formatAmountToPenny($value)
     {
-        return intval($value * 100);
+        return intval($value);
     }
 
     /**
@@ -82,9 +82,9 @@ class Format
     {
         if ($value == 0) return 0;
         if ($format) {
-            return number_format(intval($value / 100));
+            return number_format(intval($value));
         } else {
-            return intval($value / 100, 2);
+            return intval($value);
         }
     }
 
